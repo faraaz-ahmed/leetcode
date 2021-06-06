@@ -1,2 +1,4 @@
 # leetcode
-All my submissions at https://leetcode.com/
+All my submissions at [my leetcode profile](https://leetcode.com/faraazahmed000/)
+
+![Leetcode Profile](leetcodeProfile.png)
