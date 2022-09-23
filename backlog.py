@@ -3,5 +3,6 @@ backlog = [
     871,
     22,
     473,
-    926
+    926,
+    '1680 : bit manipulation'
 ]
