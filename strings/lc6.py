@@ -60,23 +60,19 @@ class Solution:
         ascend = False
         i = 0
         while i < lenS:
-            if ascend == False:
+            if not ascend:
                 j = 0
                 while j < numRows and i < lenS:
                     matrix[j].append(s[i])
-                    print('descend', s[i])
                     j += 1
                     i += 1
-                ascend = True
             else:
                 j = numRows - 2
                 while j > 0 and i < lenS:
                     matrix[j].append(s[i])
-                    print('ascend', s[i])
                     j -= 1
                     i += 1
-                ascend = False
-        print(matrix)
+            ascend = not ascend
         result = ''
         for i in range(0, len(matrix)):
             result += ''.join(matrix[i])

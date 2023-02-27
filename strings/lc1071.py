@@ -31,9 +31,6 @@ str1 and str2 consist of English uppercase letters.'''
 
 class Solution:
     def gcdOfStrings(self, str1: str, str2: str) -> str:
-        big = ''
-        small = ''
-        lenSmall, lenBig = 0, 0
         if len(str1) > len(str2):
             big = str1
             small = str2

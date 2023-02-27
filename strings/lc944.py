@@ -59,19 +59,11 @@
 
 class Solution:
     def minDeletionSize(self, strs: List[str]) -> int:
-        maxValInColumns = {}
-        lenStrs = len(strs)
-        commonLength = 0 if lenStrs <= 0 else len(strs[0])
-        deleteCounter = 0
-        for j in range(0, commonLength):
-            if not j in maxValInColumns:
-                maxValInColumns[j] = strs[0][j]
-        for i in range(1, len(strs)):
-            for j in range(0, commonLength):
-                if not maxValInColumns[j] == 'deleted':
-                    if strs[i][j] < maxValInColumns[j]:
-                        maxValInColumns[j] = 'deleted'
-                        deleteCounter += 1
-                    else:
-                        maxValInColumns[j] = strs[i][j]
-        return deleteCounter
+        r, c = len(strs), len(strs[0])
+        counter = 0
+        for j in range(0, c):
+            for i in range(1, r):
+                if strs[i][j] < strs[i - 1][j]:
+                    counter += 1
+                    break
+        return counter
