@@ -50,5 +50,5 @@ class Solution:
                 continue
             i += 1
         if len((stack)) == 0:
-            return len(haystack) - len(needle)
+            return i - len(needle)
         return -1

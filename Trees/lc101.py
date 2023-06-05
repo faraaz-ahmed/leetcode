@@ -35,3 +35,22 @@ Acceptance Rate
 54.0%
 '''
 
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+class Solution:
+
+    def imageInorder(self, root, isRightImage = False,  flag = ''):
+        l = []
+        if root:
+            l += self.imageInorder(root.right if isRightImage else root.left, isRightImage, 'l')
+            l.append(str(root.val) + flag)
+            l += self.imageInorder(root.left if isRightImage else root.right, isRightImage, 'r')
+        return l
+
+    def isSymmetric(self, root: TreeNode) -> bool:
+        return self.imageInorder(root.left) == self.imageInorder(root.right, True)
