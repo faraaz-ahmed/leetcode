@@ -2,11 +2,13 @@ export const HOSTNAME = 'http://localhost:8080';
 export const IGNORE_FOLDERS = [
 	'.git',
 	'.idea',
+	'.vscode',
 	'node_modules',
 	'CodeJam2022QualificationRound',
 	'atcoder',
 	'codejam1B2022',
-	'SyncService'
+	'SyncService',
+	'SyncScript'
 ];
 export const AXIOS_CONSTANTS = {
 	GET_TIMESTAMP: {

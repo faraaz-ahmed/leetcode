@@ -25,7 +25,9 @@ class FileParser {
     }
     getFileNames(source) {
         return (0, fs_1.readdirSync)(source, { withFileTypes: true })
-            .filter((dirent) => !dirent.isDirectory() && dirent.name.startsWith('lc'))
+            .filter((dirent) => !dirent.isDirectory() &&
+            dirent.name.startsWith('lc') &&
+            !Constants_1.IGNORE_FOLDERS.includes(dirent.name))
             .map((dirent) => dirent.name);
     }
     getIdFromFileName(fileName) {
@@ -97,8 +99,10 @@ class FileParser {
     async saveProblemAndUpdateTimestamp(latestCommit, directoryList = []) {
         (directoryList.length == 0
             ? await this.getDirectories('../../leetcode')
-            : directoryList).forEach((directory) => {
-            console.log(directory);
+            : directoryList.filter((directory) => !Constants_1.IGNORE_FOLDERS.includes(directory) &&
+                !Constants_1.IGNORE_FOLDERS.find((ignoredFolder) => directory.includes(ignoredFolder)) &&
+                !directory.includes('.'))).forEach((directory) => {
+            console.log('directory list', directory);
             this.extractAndSaveProblem(directory).then((response) => {
                 if (response) {
                     this.computeService.saveCommitTimestamp(latestCommit);

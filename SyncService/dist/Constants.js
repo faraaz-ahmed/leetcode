@@ -5,11 +5,13 @@ exports.HOSTNAME = 'http://localhost:8080';
 exports.IGNORE_FOLDERS = [
     '.git',
     '.idea',
+    '.vscode',
     'node_modules',
     'CodeJam2022QualificationRound',
     'atcoder',
     'codejam1B2022',
-    'SyncService'
+    'SyncService',
+    'SyncScript'
 ];
 exports.AXIOS_CONSTANTS = {
     GET_TIMESTAMP: {

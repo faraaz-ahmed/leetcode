@@ -6,14 +6,17 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const FileParser_1 = require("../FileParser");
 // new FileParser().saveTopic('strings').then((response) => console.log(response));
+// new FileParser()
+// 	.saveProblemAndUpdateTimestamp('mock commit', ['strings'])
+// 	.then((response) => console.log(response))
+// 	.catch((response) => console.log('error', response));
 new FileParser_1.FileParser()
-    .saveProblemAndUpdateTimestamp('mock commit', ['strings'])
-    .then((response) => console.log(response))
-    .catch((response) => console.log('error', response));
+    .getDirectories('../../leetcode')
+    .then((result) => console.log('Check Result = ', result));
 /**
  * Steps to build:
 
-cd SyncUpdates
+cd SyncScript
 tsc
 node ./dist/tests/FileParser.test.js
 
