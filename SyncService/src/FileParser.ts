@@ -140,13 +140,17 @@ export class FileParser {
 			  )
 		).forEach((directory) => {
 			console.log('directory list', directory);
-			this.extractAndSaveProblem(directory).then((response) => {
-				if (response) {
-					this.computeService.saveCommitTimestamp(latestCommit);
-				} else {
-					// TO DO: Add rollback logic if processing is incomplete, All or none.
-				}
-			});
+			try {
+				this.extractAndSaveProblem(directory).then((response) => {
+					if (response) {
+						this.computeService.saveCommitTimestamp(latestCommit);
+					} else {
+						// TO DO: Add rollback logic if processing is incomplete, All or none.
+					}
+				});
+			} catch (error) {
+				console.log(`ERROR: ${error}`);
+			}
 		});
 	}
 }
