@@ -24,11 +24,16 @@ class FileParser {
             .map((dirent) => dirent.name);
     }
     getFileNames(source) {
-        return (0, fs_1.readdirSync)(source, { withFileTypes: true })
-            .filter((dirent) => !dirent.isDirectory() &&
-            dirent.name.startsWith('lc') &&
-            !Constants_1.IGNORE_FOLDERS.includes(dirent.name))
-            .map((dirent) => dirent.name);
+        try {
+            return (0, fs_1.readdirSync)(source, { withFileTypes: true })
+                .filter((dirent) => !dirent.isDirectory() &&
+                dirent.name.startsWith('lc') &&
+                !Constants_1.IGNORE_FOLDERS.includes(dirent.name))
+                .map((dirent) => dirent.name);
+        }
+        catch (error) {
+            console.error(error);
+        }
     }
     getIdFromFileName(fileName) {
         return parseInt(fileName.replace(/[^0-9]/g, ''));
@@ -43,7 +48,13 @@ class FileParser {
                 isTopicAvailable =
                     Array.isArray(topics) &&
                         topics.map((topic) => topic.topicName).includes(directory);
-                console.log('check??', isTopicAvailable, directory, topics.map((topic) => topic.topicName).length, topics.map((topic) => topic.topicName).includes(directory));
+                // console.log(
+                // 	'check??',
+                // 	isTopicAvailable,
+                // 	directory,
+                // 	topics.map((topic) => topic.topicName).length,
+                // 	topics.map((topic) => topic.topicName).includes(directory)
+                // );
                 if (!isTopicAvailable) {
                     this.computeService
                         .saveTopics({ topics: [{ topicName: directory }] })
@@ -55,13 +66,22 @@ class FileParser {
                         // 	response
                         // );
                         isTopicAvailable = true;
-                        console.log('Successfully saved topic for ', directory, ', with response = ');
+                        // console.log(
+                        // 	'Successfully saved topic for ',
+                        // 	directory,
+                        // 	', with response = '
+                        // );
                     });
                 }
             })
                 .catch((error) => {
                 retries -= 1;
-                console.log('Error while saving topic for =', directory, 'Error =>', error);
+                // console.log(
+                // 	'Error while saving topic for =',
+                // 	directory,
+                // 	'Error =>',
+                // 	error
+                // );
             });
         }
         return isTopicAvailable;
@@ -82,7 +102,7 @@ class FileParser {
                     solution,
                     userName: 'alex'
                 };
-                console.log('problem ', problem);
+                // console.log('problem ', problem);
                 await this.computeService
                     .saveProblem(problem)
                     .then((response) => console.log('Successfully saved problem', response)
@@ -102,7 +122,7 @@ class FileParser {
             : directoryList.filter((directory) => !Constants_1.IGNORE_FOLDERS.includes(directory) &&
                 !Constants_1.IGNORE_FOLDERS.find((ignoredFolder) => directory.includes(ignoredFolder)) &&
                 !directory.includes('.'))).forEach((directory) => {
-            console.log('directory list', directory);
+            // console.log('directory list', directory);
             try {
                 this.extractAndSaveProblem(directory).then((response) => {
                     if (response) {
@@ -114,7 +134,7 @@ class FileParser {
                 });
             }
             catch (error) {
-                console.log(`ERROR: ${error}`);
+                // console.log(`ERROR: ${error}`);
             }
         });
     }

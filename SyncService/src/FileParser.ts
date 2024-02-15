@@ -28,14 +28,18 @@ export class FileParser {
 	}
 
 	private getFileNames(source) {
-		return readdirSync(source, { withFileTypes: true })
-			.filter(
-				(dirent) =>
-					!dirent.isDirectory() &&
-					dirent.name.startsWith('lc') &&
-					!IGNORE_FOLDERS.includes(dirent.name)
-			)
-			.map((dirent) => dirent.name);
+		try {
+			return readdirSync(source, { withFileTypes: true })
+				.filter(
+					(dirent) =>
+						!dirent.isDirectory() &&
+						dirent.name.startsWith('lc') &&
+						!IGNORE_FOLDERS.includes(dirent.name)
+				)
+				.map((dirent) => dirent.name);
+		} catch (error) {
+			console.error(error);
+		}
 	}
 
 	public getIdFromFileName(fileName: string): number {
@@ -52,13 +56,13 @@ export class FileParser {
 					isTopicAvailable =
 						Array.isArray(topics) &&
 						topics.map((topic) => topic.topicName).includes(directory);
-					console.log(
-						'check??',
-						isTopicAvailable,
-						directory,
-						topics.map((topic) => topic.topicName).length,
-						topics.map((topic) => topic.topicName).includes(directory)
-					);
+					// console.log(
+					// 	'check??',
+					// 	isTopicAvailable,
+					// 	directory,
+					// 	topics.map((topic) => topic.topicName).length,
+					// 	topics.map((topic) => topic.topicName).includes(directory)
+					// );
 					if (!isTopicAvailable) {
 						this.computeService
 							.saveTopics({ topics: [{ topicName: directory }] })
@@ -70,22 +74,22 @@ export class FileParser {
 								// 	response
 								// );
 								isTopicAvailable = true;
-								console.log(
-									'Successfully saved topic for ',
-									directory,
-									', with response = '
-								);
+								// console.log(
+								// 	'Successfully saved topic for ',
+								// 	directory,
+								// 	', with response = '
+								// );
 							});
 					}
 				})
 				.catch((error) => {
 					retries -= 1;
-					console.log(
-						'Error while saving topic for =',
-						directory,
-						'Error =>',
-						error
-					);
+					// console.log(
+					// 	'Error while saving topic for =',
+					// 	directory,
+					// 	'Error =>',
+					// 	error
+					// );
 				});
 		}
 		return isTopicAvailable;
@@ -108,7 +112,7 @@ export class FileParser {
 					solution,
 					userName: 'alex'
 				};
-				console.log('problem ', problem);
+				// console.log('problem ', problem);
 				await this.computeService
 					.saveProblem(problem)
 					.then(
@@ -139,7 +143,7 @@ export class FileParser {
 						!directory.includes('.')
 			  )
 		).forEach((directory) => {
-			console.log('directory list', directory);
+			// console.log('directory list', directory);
 			try {
 				this.extractAndSaveProblem(directory).then((response) => {
 					if (response) {
@@ -149,7 +153,7 @@ export class FileParser {
 					}
 				});
 			} catch (error) {
-				console.log(`ERROR: ${error}`);
+				// console.log(`ERROR: ${error}`);
 			}
 		});
 	}
