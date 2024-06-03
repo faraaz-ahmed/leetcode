@@ -55,3 +55,9 @@ class Solution:
                 patternSoFar[pattern[i]] = 'present'
                 memo[arrStr[i]] = pattern[i]
         return True
+
+
+
+
+
+
