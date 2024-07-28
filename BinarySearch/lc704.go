@@ -1,4 +1,4 @@
-// 704. Binary Search
+// 704. BinarySearch
 // Easy
 // 10.4K
 // 209

@@ -55,7 +55,8 @@ class SyncService {
         const lastProcessedCommit = await this.getLastProcessedCommit();
         const latestCommit = this.getLatestCommit();
         const fileParser = new FileParser_1.FileParser();
-        if (lastProcessedCommit === 'Timestamp Name does not exist.') {
+        if (lastProcessedCommit === 'Timestamp Name does not exist.' ||
+            !lastProcessedCommit) {
             // process all files and update last processed commit.
             fileParser.saveProblemAndUpdateTimestamp(latestCommit);
         }
@@ -89,4 +90,162 @@ node ./dist/index.js
     }
   }
  */
+/* Problem Name is &&& Sort Segments &&& PLEASE DO NOT REMOVE THIS LINE. */
+/**
+ **  * Instructions to candidate.
+ **  *  1) Run this code in the REPL to observe its behaviour.
+ **  *  2) Consider adding some additional tests.
+ **  *  3) Implement sortSegments() correctly.
+ **  *  4) If time permits, try to improve your implementation.
+ **
+ */
+// import java.util.ArrayList;
+// import java.util.HashMap;
+// import java.util.List;
+// public class Solution {
+//   record Pair(int left, int right) {}
+//   /**
+//    * Given a jumbled collection of segments, each of which is represented as
+//    * a Pair(startPoint, endPoint), this function sorts the segments to
+//    * make a continuous path.
+//    *
+//    * A few assumptions you can make:
+//    * 1. Each particular segment goes in one direction only, i.e.: if you
+//    * see (1, 2), you will not see (2, 1).
+//    * 2. Each starting point only have one way to the end point, i.e.: if
+//    * you see (6, 5), you will not see (6, 10), (6, 3), etc.
+//    *
+//    * For example, if you're passed a list containing the following int arrays:
+//    *      [(4, 5), (9, 4), (5, 1), (11, 9)]
+//    * Then your implementation should sort it such:
+//    *      [(11, 9), (9, 4), (4, 5), (5, 1)]
+//    *
+//    * @param segments collection of segments, each represented by a Pair(startPoint, endPoint).
+//    * @return The sorted segments such that they form a continuous path.
+//    * @throws Exception if there is no way to create one continuous path from
+//    *          all the segments passed into this function. Feel free to change the
+//    *          Exception type as you think appropriate.
+//    */
+//   public static List<Pair> sortSegments(final List<Pair> segments)
+//       throws Exception {
+//     // Pair is a simple data structure from Commons Lang.
+//     // Use getLeft() and getRight() to access the first and second value respectively.
+//     List<Pair> initialPair = new ArrayList<>();
+//     HashMap<Integer, Pair> map = new HashMap<>();
+//     HashMap<Integer, Integer> rightValueMap = new HashMap<>();
+//     for (int i = 0; i < segments.size(); i++) {
+//       if (!map.containsKey(Integer.valueOf(segments.get(i).left))) {
+//         map.put(Integer.valueOf(segments.get(i).left), segments.get(i));
+//       } else {
+//         throw new Exception();
+//       }
+//       if (!rightValueMap.containsKey(Integer.valueOf(segments.get(i).right))) {
+//         rightValueMap.put(Integer.valueOf(segments.get(i).right), 1);
+//       } else {
+//         rightValueMap.put(Integer.valueOf(segments.get(i).right), rightValueMap.get(Integer.valueOf(segments.get(i).right)) + 1);
+//       }
+//     }
+//     List<Integer> leftValueWithNoMapping = new ArrayList<>();
+//     for (int i = 0; i < segments.size(); i++) {
+//       if (!rightValueMap.containsKey(Integer.valueOf(segments.get(i).left))) {
+//         leftValueWithNoMapping.add(Integer.valueOf(segments.get(i).left));
+//       }
+//     }
+//     if (leftValueWithNoMapping.size() > 1) {
+//       throw new Exception();
+//     }
+//     Integer startingLeftValue;
+//     if (leftValueWithNoMapping.size() == 0) {
+//       startingLeftValue = segments.get(0).left;
+//     } else {
+//       startingLeftValue = leftValueWithNoMapping.get(0);
+//     }
+//     List<Pair> result = new ArrayList<>();
+//     Integer currentLeftValue = startingLeftValue;
+//     Pair initialCurrentPair = map.get(currentLeftValue);
+//     result.add(initialCurrentPair);
+//     currentLeftValue = initialCurrentPair.right;
+//     while (map.containsKey(currentLeftValue)) {
+//       if (currentLeftValue == startingLeftValue) {
+//         break;
+//       }
+//       Pair currentPair = map.get(currentLeftValue);
+//       result.add(currentPair);
+//       currentLeftValue = currentPair.right;
+//     }
+//     System.out.println(result);
+//     return result;
+//   }
+//   public static boolean testBasicSort() throws Exception {
+//     var jumbledSegments = new ArrayList<>(
+//         List.of(new Pair(4, 5),
+//             new Pair(9, 4),
+//             new Pair(5, 1),
+//             new Pair(11, 9)
+//         )
+//     );
+//     var actualContinuousPath = sortSegments(jumbledSegments);
+//     var expectedContinuousPath = new ArrayList<>(
+//         List.of(new Pair(11, 9),
+//             new Pair(9, 4),
+//             new Pair(4, 5),
+//             new Pair(5, 1) //1, 11 - cyclic 5,7
+//         )
+//     );
+//     return expectedContinuousPath.equals(actualContinuousPath);
+//   }
+//   public static boolean testBasicSortCyclicCase() throws Exception {
+//     var jumbledSegments = new ArrayList<>(
+//         List.of(new Pair(4, 5),
+//             new Pair(9, 4),
+//             new Pair(5, 1),
+//             new Pair(11, 9),
+//             new Pair(1, 11)
+//         )
+//     );
+//     var actualContinuousPath = sortSegments(jumbledSegments);
+//     var expectedContinuousPath = new ArrayList<>(
+//         List.of(new Pair(11, 9),
+//             new Pair(9, 4),
+//             new Pair(4, 5),
+//             new Pair(5, 1),
+//             new Pair(1, 11)
+//         )
+//     );
+//     return expectedContinuousPath.equals(actualContinuousPath);
+//   }
+//   // public static boolean testBasicSortNonContinuous() throws Exception {
+//   //   var jumbledSegments = new ArrayList<>(
+//   //       List.of(new Pair(4, 5),
+//   //           new Pair(9, 4),
+//   //           new Pair(5, 1),
+//   //           new Pair(11, 9),
+//   //           new Pair(600, 9)
+//   //       )
+//   //   );
+//   //   var actualContinuousPath = sortSegments(jumbledSegments);
+//   //   var expectedContinuousPath = new ArrayList<>(
+//   //       List.of(new Pair(11, 9),
+//   //           new Pair(9, 4),
+//   //           new Pair(4, 5),
+//   //           new Pair(5, 1),
+//   //           new Pair(1, 9)
+//   //       )
+//   //   );
+//   //   return expectedContinuousPath.equals(actualContinuousPath);
+//   // }
+//   public static boolean doTestsPass() throws Exception {
+//     boolean allPass = true;
+//     allPass = allPass && testBasicSort();
+//     // && testBasicSortCyclicCase();
+//     return allPass;
+//   }
+//   public static void main(String[] args) throws Exception {
+//     if (doTestsPass()) {
+//       System.out.println("All tests pass");
+//     } else {
+//       System.out.println("Some tests fail");
+//     }
+//   }
+// }
 //# sourceMappingURL=index.js.map
