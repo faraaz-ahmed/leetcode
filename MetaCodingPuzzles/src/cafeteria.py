@@ -1,0 +1,1 @@
+from typing import List# Write any import statements heredef getMaxAdditionalDinersCount(N: int, K: int, M: int, S: List[int]) -> int:    # Write your code here    S.sort()    gaps = []    for i in range(0, len(S) - 1):        gaps.append(S[i + 1] - S[i])    result = 0    for gap in gaps:        result += ((gap - K) // 3) - 1    return result
